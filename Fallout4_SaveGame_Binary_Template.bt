@@ -1,0 +1,179 @@
+//-----------------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:     Fallout4_SaveGame_Binary_Template.bt
+// Author:   zach@okzach.com
+// Revision: 0.1.2
+// Purpose:  Defines a template for
+//           parsing .FOS files used
+//           by Fallout 4 for Save Games.
+//-----------------------------------------------
+
+
+// wstring, as used in fo4 save files
+typedef struct {
+    uint16  size <hidden=true>;
+    char    data[size];
+} WSTRING <read=ReadWSTRING>;
+
+string ReadWSTRING( WSTRING &s ) {
+    return s.data;
+}
+
+// RGBA Pixel used for Screenshot data
+typedef struct {  // Have not verified color order, assuming RGBA for now
+    ubyte   rgbRed;
+    ubyte   rgbGreen;
+    ubyte   rgbBlue;
+    ubyte   rgbAlpha;
+} RGBA <read=ReadRGBA>;
+
+string ReadRGBA( RGBA &a )
+{
+    string s;
+    SPrintf( s, "#%02X%02X%02X%02X", a.rgbRed, a.rgbGreen, a.rgbBlue, a.rgbAlpha );
+    return s;
+}
+
+// Player Gender
+typedef enum <uint16> {
+    MALE = 0,
+    FEMALE = 1
+} GENDER;
+
+/**
+ * Fallout 4 Save Game File Structure
+ */
+struct FO4SAVEGAME {
+    // File start
+    char    magic[12] <name="Signature", bgcolor=cGreen>;
+    uint32  headerSize <name="Header Size">;
+
+    if( magic != "FO4_SAVEGAME" ) {
+        Warning( "File is not a FO4 Save File. Template stopped." );
+        return -1;
+    }
+
+    // Header data
+    uint32  saveVersion <name="Save Version">;
+    uint32  saveNumber <name="Save Number">;
+    WSTRING playerName <name="Player Name", bgcolor=cLtRed>;
+    uint32  playerLevel <name="Player Level", bgcolor=cGreen>;
+    WSTRING playerLocation <name="Player Location", bgcolor=cGreen>;
+    WSTRING gameTime <name="Game Time", bgcolor=cGreen>;
+    WSTRING playerRace <name="Player Race">;
+    GENDER  playerGender <name="Player Gender">;
+    float   playerExp <name="Experience earned">;
+    float   levelExp <name="Experience required">;
+    FILETIME    filetime <name="filetime">;
+    uint32  screenshotWidth <name="Screenshot Width", bgcolor=cLtGray>;
+    uint32  screenshotHeight <name="Screenshot Height", bgcolor=cLtGray>;
+
+    // Screenshot data
+    RGBA    screenshotData[ screenshotWidth * screenshotHeight ] <name="Screenshot Data">;
+    
+    // App info
+    ubyte   formVersion <name="Form? Version">;
+    WSTRING gameVersion <name="Game Version">;
+
+    // File list
+    uint32  fileListSize <hidden=true>;
+    ubyte   fileListCount <name="Plugin File Count">;
+    WSTRING fileList[fileListCount] <optimize=false, name="Plugin Files">;
+
+    // File Map
+    uint32 unknown1Offset <name="Unknown Offset">;
+    uint32 unknown2Offset <name="Unknown Offset">;
+    uint32 globalData1Offset <name="Global Data 1 Offset">;
+    uint32 globalData2Offset <name="Global Data 2 Offset">;
+    uint32 changeFormsOffset <name="Change Forms? Offset">;
+    uint32 globalData3Offset <name="Global Data 3 Offset">;
+    uint32 globalData1Count <name="Global Data 1 Count">;
+    uint32 globalData2Count <name="Global Data 2 Count">;
+    uint32 globalData3Count <name="Global Data 3 Count">;
+    uint32 changeFormsCount <name="Change Forms? Count">;
+} fo4savegame;
+
+
+// Global Data
+typedef struct {
+    uint32  id;
+    uint32  size;
+    if( size > 0 )
+        ubyte   data[size];
+} DATABLOCK <read=ReadDATABLOCK>;
+
+string ReadDATABLOCK( DATABLOCK &b ) {
+    string s;
+    SPrintf( s, "ID: %d", b.id );
+    return s;
+}
+
+struct GLOBALDATA {
+    FSeek( fo4savegame.globalData1Offset );
+    DATABLOCK   globalData1[fo4savegame.globalData1Count] <optimize=false>;
+    FSeek( fo4savegame.globalData2Offset );
+    DATABLOCK   globalData2[fo4savegame.globalData2Count] <optimize=false>;
+    FSeek( fo4savegame.globalData3Offset );
+    DATABLOCK   globalData3[fo4savegame.globalData3Count] <optimize=false>;
+} globaldata;
+
+
+// Change Forms (?)
+typedef struct {
+    ubyte   id[3];
+    uint32  flags;
+    ubyte   type;
+    ubyte   version;
+    local uint32 lenType;
+    lenType = type >> 6;
+    switch( lenType ) {
+        case 0:
+            ubyte   deflatedSize;
+            ubyte   inflatedSize;
+            break;
+        case 1:
+            uint16  deflatedSize;
+            uint16  inflatedSize;
+            break;
+        case 2:
+            uint32  deflatedSize;
+            uint32  inflatedSize;
+            break;
+    }
+    if( deflatedSize > 0 )
+        ubyte   data[deflatedSize];
+} CHANGEFORM <read=ReadCHANGEFORM>;
+
+string ReadCHANGEFORM( CHANGEFORM &c ) {
+    string s;
+    SPrintf( s, "id: %d %d %d", c.id[0], c.id[1], c.id[2] );
+    return s;
+}
+
+FSeek( fo4savegame.changeFormsOffset );
+struct CHANGEFORMS {
+    CHANGEFORM  changeForm[fo4savegame.changeFormsCount] <optimize=false>;
+} changeforms;
+
+
+// Player Stats
+typedef struct {
+    WSTRING stat;
+    ubyte   flag;
+    uint32  value;
+} PLAYERSTAT <read=ReadPLAYERSTAT>;
+
+string ReadPLAYERSTAT( PLAYERSTAT &p ) {
+    string s;
+    SPrintf( s, "%s: %d", p.stat.data, p.value);
+    return s;
+}
+
+// Extract the Player Stats from the first Global Data 1 block
+FSeek( startof( globaldata.globalData1[0].data ) );
+struct PLAYERSTATS {
+    uint32 count <hidden=true>;
+    PLAYERSTAT stats[count] <optimize=false>;
+} playerstats;
+
