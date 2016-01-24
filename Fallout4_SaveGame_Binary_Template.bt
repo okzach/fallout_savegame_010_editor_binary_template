@@ -46,6 +46,21 @@ typedef enum <uint16> {
 } GENDER;
 
 
+// Screenshot
+typedef struct {
+    uint32  width <name="Screenshot Width", fgcolor=cWhite, bgcolor=cDkBlue>;
+    uint32  height <name="Screenshot Height", fgcolor=cWhite, bgcolor=cDkBlue>;
+    RGBA    data[ width * height ] <name="Screenshot Data">;
+} SCREENSHOT <read=ReadSCREENSHOT>;
+
+string ReadSCREENSHOT( SCREENSHOT &shot )
+{
+    string s;
+    SPrintf( s, "%dx%d", shot.width, shot.height );
+    return s;
+}
+
+
 // Fallout 4 Save Game File Structure
 struct FO4SAVEGAME {
     // File start
@@ -69,11 +84,7 @@ struct FO4SAVEGAME {
     float   playerExp <name="Experience earned">;
     float   levelExp <name="Experience required">;
     FILETIME    filetime <name="filetime">;
-    uint32  screenshotWidth <name="Screenshot Width", fgcolor=cWhite, bgcolor=cDkBlue>;
-    uint32  screenshotHeight <name="Screenshot Height", fgcolor=cWhite, bgcolor=cDkBlue>;
-
-    // Screenshot data
-    RGBA    screenshotData[ screenshotWidth * screenshotHeight ] <name="Screenshot Data">;
+    SCREENSHOT  screenshot <name="Screenshot">;
     
     // App info
     ubyte   formVersion <name="Form? Version">;
