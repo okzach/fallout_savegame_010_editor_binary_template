@@ -91,9 +91,11 @@ struct FO4SAVEGAME {
     WSTRING gameVersion <name="Game Version">;
 
     // File list
-    uint32  fileListSize <hidden=true>;
-    ubyte   fileListCount <name="Plugin File Count">;
-    WSTRING fileList[fileListCount] <optimize=false, name="Plugin Files">;
+    struct PLUGINLIST {
+        uint32  size <hidden=true, name="Plugin List Size">;
+        ubyte   count <name="Plugin File Count">;
+        WSTRING pluginList[count] <optimize=false, name="Plugin Files">;
+    } pluginlist <open=true, name="Plugin File List">;
 
     // File Map
     struct FILEMAP {
