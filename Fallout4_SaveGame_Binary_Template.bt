@@ -46,7 +46,7 @@ typedef enum <uint16> {
  */
 struct FO4SAVEGAME {
     // File start
-    char    magic[12] <name="Signature", bgcolor=cGreen>;
+    char    magic[12] <name="Signature", fgcolor=cGreen, bgcolor=cGray>;
     uint32  headerSize <name="Header Size">;
 
     if( magic != "FO4_SAVEGAME" ) {
@@ -57,11 +57,11 @@ struct FO4SAVEGAME {
     // Header data
     uint32  saveVersion <name="Save Version">;
     uint32  saveNumber <name="Save Number">;
-    WSTRING playerName <name="Player Name", bgcolor=cLtRed>;
-    uint32  playerLevel <name="Player Level", bgcolor=cGreen>;
-    WSTRING playerLocation <name="Player Location", bgcolor=cGreen>;
-    WSTRING gameTime <name="Game Time", bgcolor=cGreen>;
-    WSTRING playerRace <name="Player Race">;
+    WSTRING playerName <name="Player Name", fgcolor=cRed, bgcolor=cGray>;
+    uint32  playerLevel <name="Player Level", fgcolor=cGreen>;
+    WSTRING playerLocation <name="Player Location", fgcolor=cYellow, bgcolor=cGray>;
+    WSTRING gameTime <name="Game Time", fgcolor=cAqua, bgcolor=cGray>;
+    WSTRING playerRace <name="Player Race", fgcolor=cPurple, bgcolor=cGray>;
     GENDER  playerGender <name="Player Gender">;
     float   playerExp <name="Experience earned">;
     float   levelExp <name="Experience required">;
