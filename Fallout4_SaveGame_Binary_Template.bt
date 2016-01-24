@@ -22,10 +22,10 @@ string ReadWSTRING( WSTRING &s ) {
 
 // RGBA Pixel used for Screenshot data
 typedef struct {  // Have not verified color order, assuming RGBA for now
-    ubyte   rgbRed;
-    ubyte   rgbGreen;
-    ubyte   rgbBlue;
-    ubyte   rgbAlpha;
+    ubyte   rgbRed      <name="Screenshot Width", fgcolor=cRed, bgcolor=cDkBlue>;
+    ubyte   rgbGreen    <name="Screenshot Width", fgcolor=cGreen, bgcolor=cDkBlue>;
+    ubyte   rgbBlue     <name="Screenshot Width", fgcolor=cBlue, bgcolor=cDkBlue>;
+    ubyte   rgbAlpha    <name="Screenshot Width", fgcolor=cLtGray, bgcolor=cDkBlue>;
 } RGBA <read=ReadRGBA>;
 
 string ReadRGBA( RGBA &a )
@@ -66,8 +66,8 @@ struct FO4SAVEGAME {
     float   playerExp <name="Experience earned">;
     float   levelExp <name="Experience required">;
     FILETIME    filetime <name="filetime">;
-    uint32  screenshotWidth <name="Screenshot Width", bgcolor=cLtGray>;
-    uint32  screenshotHeight <name="Screenshot Height", bgcolor=cLtGray>;
+    uint32  screenshotWidth <name="Screenshot Width", fgcolor=cWhite, bgcolor=cDkBlue>;
+    uint32  screenshotHeight <name="Screenshot Height", fgcolor=cWhite, bgcolor=cDkBlue>;
 
     // Screenshot data
     RGBA    screenshotData[ screenshotWidth * screenshotHeight ] <name="Screenshot Data">;
