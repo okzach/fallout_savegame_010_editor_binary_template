@@ -159,9 +159,9 @@ struct CHANGEFORMS {
 
 // Player Stats
 typedef struct {
-    WSTRING stat;
-    ubyte   flag;
-    uint32  value;
+    WSTRING stat <name="Player Stat", fgcolor=cGreen, bgcolor=cGray>;
+    ubyte   flag <name="Flag? or Group?", fgcolor=cDkGreen>;
+    uint32  value <name="Stat Value", fgcolor=cGreen, bgcolor=cLtGray>;
 } PLAYERSTAT <read=ReadPLAYERSTAT>;
 
 string ReadPLAYERSTAT( PLAYERSTAT &p ) {
