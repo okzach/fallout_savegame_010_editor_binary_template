@@ -1,6 +1,6 @@
 # Fallout 4 Save Game Binary Template
 
-A `Binary template` used to inspect `Fallout 4` save game files with `010 Editor`.
+A `binary template` describing `Fallout 4` save game files `(*.fos)`, for use with `010 Editor`.
 
 
 ## History
