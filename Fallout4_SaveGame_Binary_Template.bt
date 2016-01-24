@@ -16,9 +16,12 @@ typedef struct {
     char    data[size];
 } WSTRING <read=ReadWSTRING>;
 
-string ReadWSTRING( WSTRING &s ) {
-    return s.data;
+string ReadWSTRING( WSTRING &ws ) {
+    string s;
+    SPrintf( s, "%s", ws.data ); 
+    return s;
 }
+
 
 // RGBA Pixel used for Screenshot data
 typedef struct {  // Have not verified color order, assuming RGBA for now
@@ -35,15 +38,15 @@ string ReadRGBA( RGBA &a )
     return s;
 }
 
+
 // Player Gender
 typedef enum <uint16> {
     MALE = 0,
     FEMALE = 1
 } GENDER;
 
-/**
- * Fallout 4 Save Game File Structure
- */
+
+// Fallout 4 Save Game File Structure
 struct FO4SAVEGAME {
     // File start
     char    magic[12] <name="Signature", fgcolor=cGreen, bgcolor=cGray>;
