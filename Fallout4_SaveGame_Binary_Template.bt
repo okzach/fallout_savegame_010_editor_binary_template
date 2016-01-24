@@ -12,7 +12,7 @@
 
 // wstring, as used in fo4 save files
 typedef struct {
-    uint16  size <hidden=true>;
+    uint16  size <hidden=true, fgcolor=cLtGray>;
     char    data[size];
 } WSTRING <read=ReadWSTRING>;
 
