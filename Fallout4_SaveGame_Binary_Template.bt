@@ -82,16 +82,18 @@ struct FO4SAVEGAME {
     WSTRING fileList[fileListCount] <optimize=false, name="Plugin Files">;
 
     // File Map
-    uint32 unknown1Offset <name="Unknown Offset 1", fgcolor=cBlack, bgcolor=cDkPurple>;
-    uint32 unknown2Offset <name="Unknown Offset 2", fgcolor=cBlack, bgcolor=cDkPurple>;
-    uint32 globalData1Offset <name="Global Data 1 Offset", fgcolor=cGreen, bgcolor=cDkPurple>;
-    uint32 globalData2Offset <name="Global Data 2 Offset", fgcolor=cGreen, bgcolor=cDkPurple>;
-    uint32 changeFormsOffset <name="Change Forms Offset", fgcolor=cYellow, bgcolor=cDkPurple>;
-    uint32 globalData3Offset <name="Global Data 3 Offset", fgcolor=cGreen, bgcolor=cDkPurple>;
-    uint32 globalData1Count <name="Global Data 1 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
-    uint32 globalData2Count <name="Global Data 2 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
-    uint32 globalData3Count <name="Global Data 3 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
-    uint32 changeFormsCount <name="Change Forms Count", fgcolor=cYellow, bgcolor=cDkPurple>;
+    struct FILEMAP {
+        uint32 unknown1Offset <name="Unknown Offset 1", fgcolor=cBlack, bgcolor=cDkPurple>;
+        uint32 unknown2Offset <name="Unknown Offset 2", fgcolor=cBlack, bgcolor=cDkPurple>;
+        uint32 globalData1Offset <name="Global Data 1 Offset", fgcolor=cGreen, bgcolor=cDkPurple>;
+        uint32 globalData2Offset <name="Global Data 2 Offset", fgcolor=cGreen, bgcolor=cDkPurple>;
+        uint32 changeFormsOffset <name="Change Forms Offset", fgcolor=cYellow, bgcolor=cDkPurple>;
+        uint32 globalData3Offset <name="Global Data 3 Offset", fgcolor=cGreen, bgcolor=cDkPurple>;
+        uint32 globalData1Count <name="Global Data 1 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
+        uint32 globalData2Count <name="Global Data 2 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
+        uint32 globalData3Count <name="Global Data 3 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
+        uint32 changeFormsCount <name="Change Forms Count", fgcolor=cYellow, bgcolor=cDkPurple>;
+    } filemap;
 } fo4savegame;
 
 
@@ -110,12 +112,12 @@ string ReadDATABLOCK( DATABLOCK &b ) {
 }
 
 struct GLOBALDATA {
-    FSeek( fo4savegame.globalData1Offset );
-    DATABLOCK   globalData1[fo4savegame.globalData1Count] <optimize=false>;
-    FSeek( fo4savegame.globalData2Offset );
-    DATABLOCK   globalData2[fo4savegame.globalData2Count] <optimize=false>;
-    FSeek( fo4savegame.globalData3Offset );
-    DATABLOCK   globalData3[fo4savegame.globalData3Count] <optimize=false>;
+    FSeek( fo4savegame.filemap.globalData1Offset );
+    DATABLOCK   globalData1[fo4savegame.filemap.globalData1Count] <optimize=false>;
+    FSeek( fo4savegame.filemap.globalData2Offset );
+    DATABLOCK   globalData2[fo4savegame.filemap.globalData2Count] <optimize=false>;
+    FSeek( fo4savegame.filemap.globalData3Offset );
+    DATABLOCK   globalData3[fo4savegame.filemap.globalData3Count] <optimize=false>;
 } globaldata;
 
 
@@ -151,9 +153,9 @@ string ReadCHANGEFORM( CHANGEFORM &c ) {
     return s;
 }
 
-FSeek( fo4savegame.changeFormsOffset );
+FSeek( fo4savegame.filemap.changeFormsOffset );
 struct CHANGEFORMS {
-    CHANGEFORM  changeForm[fo4savegame.changeFormsCount] <optimize=false>;
+    CHANGEFORM  changeForm[fo4savegame.filemap.changeFormsCount] <optimize=false>;
 } changeforms;
 
 
