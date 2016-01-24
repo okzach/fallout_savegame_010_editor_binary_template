@@ -107,8 +107,8 @@ struct FO4SAVEGAME {
         uint32 globalData2Count <name="Global Data 2 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
         uint32 globalData3Count <name="Global Data 3 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
         uint32 changeFormsCount <name="Change Forms Count", fgcolor=cYellow, bgcolor=cDkPurple>;
-    } filemap;
-} fo4savegame;
+    } filemap <open=true, name="File Map">;
+} fo4savegame <name="Fallout 4 Save Game">;
 
 
 // Global Data
@@ -117,7 +117,7 @@ typedef struct {
     uint32  size;
     if( size > 0 )
         ubyte   data[size];
-} DATABLOCK <read=ReadDATABLOCK>;
+} DATABLOCK <read=ReadDATABLOCK, name="Global Data Block">;
 
 string ReadDATABLOCK( DATABLOCK &b ) {
     string s;
@@ -159,7 +159,7 @@ typedef struct {
     }
     if( deflatedSize > 0 )
         ubyte   data[deflatedSize];
-} CHANGEFORM <read=ReadCHANGEFORM>;
+} CHANGEFORM <read=ReadCHANGEFORM, name="Change Form Block">;
 
 string ReadCHANGEFORM( CHANGEFORM &c ) {
     string s;
@@ -170,7 +170,7 @@ string ReadCHANGEFORM( CHANGEFORM &c ) {
 FSeek( fo4savegame.filemap.changeFormsOffset );
 struct CHANGEFORMS {
     CHANGEFORM  changeForm[fo4savegame.filemap.changeFormsCount] <optimize=false>;
-} changeforms;
+} changeforms <name="Change Forms">;
 
 
 // Player Stats
@@ -178,7 +178,7 @@ typedef struct {
     WSTRING stat <name="Player Stat", fgcolor=cGreen, bgcolor=cGray>;
     ubyte   flag <name="Flag? or Group?", fgcolor=cDkGreen>;
     uint32  value <name="Stat Value", fgcolor=cGreen, bgcolor=cLtGray>;
-} PLAYERSTAT <read=ReadPLAYERSTAT>;
+} PLAYERSTAT <read=ReadPLAYERSTAT, name="Player Stat">;
 
 string ReadPLAYERSTAT( PLAYERSTAT &p ) {
     string s;
@@ -191,5 +191,5 @@ FSeek( startof( globaldata.globalData1[0].data ) );
 struct PLAYERSTATS {
     uint32 count <hidden=true>;
     PLAYERSTAT stats[count] <optimize=false>;
-} playerstats;
+} playerstats <name="Player Stats">;
 
