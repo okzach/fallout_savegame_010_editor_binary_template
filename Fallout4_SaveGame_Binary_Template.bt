@@ -3,7 +3,6 @@
 //
 // File:     Fallout4_SaveGame_Binary_Template.bt
 // Author:   zach@okzach.com
-// Revision: 0.1.2
 // Purpose:  Defines a template for
 //           parsing .FOS files used
 //           by Fallout 4 for Save Games.
