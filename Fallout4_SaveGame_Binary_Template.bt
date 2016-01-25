@@ -25,10 +25,10 @@ string ReadWSTRING( WSTRING &ws ) {
 
 // RGBA Pixel used for Screenshot data
 typedef struct {  // Have not verified color order, assuming RGBA for now
-    ubyte   rgbRed      <name="Screenshot Width", fgcolor=cRed, bgcolor=cDkBlue>;
-    ubyte   rgbGreen    <name="Screenshot Width", fgcolor=cGreen, bgcolor=cDkBlue>;
-    ubyte   rgbBlue     <name="Screenshot Width", fgcolor=cBlue, bgcolor=cDkBlue>;
-    ubyte   rgbAlpha    <name="Screenshot Width", fgcolor=cLtGray, bgcolor=cDkBlue>;
+    ubyte   rgbRed      <name="Red", fgcolor=cRed, bgcolor=cDkBlue>;
+    ubyte   rgbGreen    <name="Green", fgcolor=cGreen, bgcolor=cDkBlue>;
+    ubyte   rgbBlue     <name="Blue", fgcolor=cBlue, bgcolor=cDkBlue>;
+    ubyte   rgbAlpha    <name="Alpha", fgcolor=cLtGray, bgcolor=cDkBlue>;
 } RGBA <read=ReadRGBA>;
 
 string ReadRGBA( RGBA &a )
