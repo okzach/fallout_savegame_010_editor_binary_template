@@ -166,7 +166,7 @@ typedef struct {
 
 string ReadCHANGEFORM( CHANGEFORM &c ) {
     string s;
-    SPrintf( s, "id: %X %X %X", c.refID[0], c.refID[1], c.refID[2] );
+    SPrintf( s, "id: %02X %02X %02X", c.refID[0], c.refID[1], c.refID[2] );
     return s;
 }
 
