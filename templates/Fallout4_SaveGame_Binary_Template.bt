@@ -193,5 +193,5 @@ FSeek( startof( globaldata1.dataBlock[0].data ) );
 struct PLAYERSTATS {
     uint32 count <hidden=true>;
     PLAYERSTAT stats[count] <optimize=false>;
-} playerstats <name="Player Stats">;
+} playerstats <open=true, name="Player Stats">;
 
