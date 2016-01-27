@@ -109,7 +109,7 @@ struct FO4SAVEGAME {
         uint32 globalData3Count <name="Global Data 3 Count", fgcolor=cDkGreen, bgcolor=cDkPurple>;
         uint32 changeFormsCount <name="Change Forms Count", fgcolor=cYellow, bgcolor=cDkPurple>;
     } filemap <open=true, name="File Map">;
-} fo4savegame <name="Fallout 4 Save Game">;
+} fo4savegame <open=true, name="Fallout 4 Save Game">;
 
 
 // Global Data
