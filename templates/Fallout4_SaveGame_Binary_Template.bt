@@ -111,7 +111,7 @@ typedef struct {
     uint32  size;
     if( size > 0 )
         ubyte   data[size];
-} DATABLOCK <read=ReadDATABLOCK, name="Global Data Block">;
+} DATABLOCK <read=ReadDATABLOCK, name="Data Block">;
 
 string ReadDATABLOCK( DATABLOCK &b ) {
     string s;
@@ -123,17 +123,17 @@ string ReadDATABLOCK( DATABLOCK &b ) {
 // Global Data 1
 FSeek( fo4savegame.filemap.globalData1Offset );
 struct GLOBALDATA1 {
-    DATABLOCK   globalData1[fo4savegame.filemap.globalData1Count] <optimize=false>;
+    DATABLOCK   dataBlock[fo4savegame.filemap.globalData1Count] <optimize=false>;
 } globaldata1 <name="Global Data 1">;
 // Global Data 2
 FSeek( fo4savegame.filemap.globalData2Offset );
 struct GLOBALDATA2 {
-    DATABLOCK   globalData1[fo4savegame.filemap.globalData2Count] <optimize=false>;
+    DATABLOCK   dataBlock[fo4savegame.filemap.globalData2Count] <optimize=false>;
 } globaldata2 <name="Global Data 2">;
 // Global Data 3
 FSeek( fo4savegame.filemap.globalData3Offset );
 struct GLOBALDATA3 {
-    DATABLOCK   globalData1[fo4savegame.filemap.globalData3Count] <optimize=false>;
+    DATABLOCK   dataBlock[fo4savegame.filemap.globalData3Count] <optimize=false>;
 } globaldata3 <name="Global Data 3">;
 
 
@@ -189,7 +189,7 @@ string ReadPLAYERSTAT( PLAYERSTAT &p ) {
 }
 
 // Extract the Player Stats from the first Global Data 1 block
-FSeek( startof( globaldata1.globalData1[0].data ) );
+FSeek( startof( globaldata1.dataBlock[0].data ) );
 struct PLAYERSTATS {
     uint32 count <hidden=true>;
     PLAYERSTAT stats[count] <optimize=false>;
