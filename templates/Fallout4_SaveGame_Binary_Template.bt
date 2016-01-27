@@ -119,23 +119,22 @@ string ReadDATABLOCK( DATABLOCK &b ) {
     return s;
 }
 
-struct GLOBALDATA {
-    // Global Data 1
-    FSeek( fo4savegame.filemap.globalData1Offset );
-    struct GLOBALDATA1 {
-        DATABLOCK   globalData1[fo4savegame.filemap.globalData1Count] <optimize=false>;
-    } globaldata1 <name="Global Data 1">;
-    // Global Data 2
-    FSeek( fo4savegame.filemap.globalData2Offset );
-    struct GLOBALDATA2 {
-        DATABLOCK   globalData1[fo4savegame.filemap.globalData2Count] <optimize=false>;
-    } globaldata2 <name="Global Data 2">;
-    // Global Data 3
-    FSeek( fo4savegame.filemap.globalData3Offset );
-    struct GLOBALDATA3 {
-        DATABLOCK   globalData1[fo4savegame.filemap.globalData3Count] <optimize=false>;
-    } globaldata3 <name="Global Data 3">;
-} globaldata <name="Global Data">;
+
+// Global Data 1
+FSeek( fo4savegame.filemap.globalData1Offset );
+struct GLOBALDATA1 {
+    DATABLOCK   globalData1[fo4savegame.filemap.globalData1Count] <optimize=false>;
+} globaldata1 <name="Global Data 1">;
+// Global Data 2
+FSeek( fo4savegame.filemap.globalData2Offset );
+struct GLOBALDATA2 {
+    DATABLOCK   globalData1[fo4savegame.filemap.globalData2Count] <optimize=false>;
+} globaldata2 <name="Global Data 2">;
+// Global Data 3
+FSeek( fo4savegame.filemap.globalData3Offset );
+struct GLOBALDATA3 {
+    DATABLOCK   globalData1[fo4savegame.filemap.globalData3Count] <optimize=false>;
+} globaldata3 <name="Global Data 3">;
 
 
 // Change Forms
