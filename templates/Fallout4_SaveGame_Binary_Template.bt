@@ -189,7 +189,7 @@ string ReadPLAYERSTAT( PLAYERSTAT &p ) {
 }
 
 // Extract the Player Stats from the first Global Data 1 block
-FSeek( startof( globaldata.globaldata1.globalData1[0].data ) );
+FSeek( startof( globaldata1.globalData1[0].data ) );
 struct PLAYERSTATS {
     uint32 count <hidden=true>;
     PLAYERSTAT stats[count] <optimize=false>;
