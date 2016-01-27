@@ -45,21 +45,6 @@ typedef enum <uint16> {
 } GENDER;
 
 
-// Screenshot
-typedef struct {
-    uint32  width <name="Screenshot Width", fgcolor=cWhite, bgcolor=cDkBlue>;
-    uint32  height <name="Screenshot Height", fgcolor=cWhite, bgcolor=cDkBlue>;
-    RGBA    data[ width * height ] <name="Screenshot Data">;
-} SCREENSHOT <read=ReadSCREENSHOT>;
-
-string ReadSCREENSHOT( SCREENSHOT &shot )
-{
-    string s;
-    SPrintf( s, "%dx%d", shot.width, shot.height );
-    return s;
-}
-
-
 // Fallout 4 Save Game File Structure
 struct FO4SAVEGAME {
     // File start
@@ -72,26 +57,34 @@ struct FO4SAVEGAME {
     }
 
     // Header data
-    uint32  saveVersion <name="Save Version">;
-    uint32  saveNumber <name="Save Number">;
-    WSTRING playerName <name="Player Name", fgcolor=cRed, bgcolor=cGray>;
-    uint32  playerLevel <name="Player Level", fgcolor=cGreen>;
-    WSTRING playerLocation <name="Player Location", fgcolor=cYellow, bgcolor=cGray>;
-    WSTRING gameTime <name="Game Time", fgcolor=cAqua, bgcolor=cGray>;
-    WSTRING playerRace <name="Player Race", fgcolor=cPurple, bgcolor=cGray>;
-    GENDER  playerGender <name="Player Gender">;
-    float   playerExp <name="Experience earned">;
-    float   levelExp <name="Experience required">;
-    FILETIME    filetime <name="filetime">;
-    SCREENSHOT  screenshot <name="Screenshot">;
+    struct HEADER {
+        uint32  saveVersion <name="Save Version">;
+        uint32  saveNumber <name="Save Number">;
+        WSTRING playerName <name="Player Name", fgcolor=cRed, bgcolor=cGray>;
+        uint32  playerLevel <name="Player Level", fgcolor=cGreen>;
+        WSTRING playerLocation <name="Player Location", fgcolor=cYellow, bgcolor=cGray>;
+        WSTRING gameTime <name="Game Time", fgcolor=cAqua, bgcolor=cGray>;
+        WSTRING playerRace <name="Player Race", fgcolor=cPurple, bgcolor=cGray>;
+        GENDER  playerGender <name="Player Gender">;
+        float   playerExp <name="Experience earned">;
+        float   levelExp <name="Experience required">;
+        FILETIME    filetime <name="filetime">;
+        uint32  screenshotWidth <name="Screenshot Width", fgcolor=cWhite, bgcolor=cDkBlue>;
+        uint32  screenshotHeight <name="Screenshot Height", fgcolor=cWhite, bgcolor=cDkBlue>;
+    } header <open=true, name="Header">;
+
+    // Screenshot Data
+    struct SCREENSHOT {
+        RGBA    data[ header.screenshotWidth * header.screenshotHeight ] <name="RGBA Pixel">;
+    } screenshot <name="Screenshot">;
     
     // App info
     ubyte   formVersion <name="Form? Version">;
     WSTRING gameVersion <name="Game Version">;
 
     // Plugin list
+    uint32  pluginListSize <name="Plugin List Size">;
     struct PLUGINLIST {
-        uint32  size <hidden=true, name="Plugin List Size">;
         ubyte   count <name="Plugin File Count">;
         WSTRING pluginList[count] <optimize=false, name="Plugin Files">;
     } pluginlist <open=true, name="Plugin File List">;
