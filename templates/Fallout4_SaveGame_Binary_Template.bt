@@ -147,7 +147,7 @@ struct GLOBALDATA {
 
 // Change Forms (?)
 typedef struct {
-    ubyte   id[3];
+    ubyte   formID[3];
     uint32  flags;
     ubyte   type;
     ubyte   version;
@@ -173,7 +173,7 @@ typedef struct {
 
 string ReadCHANGEFORM( CHANGEFORM &c ) {
     string s;
-    SPrintf( s, "id: %d %d %d", c.id[0], c.id[1], c.id[2] );
+    SPrintf( s, "id: %x %x %x", c.formID[0], c.formID[1], c.formID[2] );
     return s;
 }
 
