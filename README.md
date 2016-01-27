@@ -4,7 +4,7 @@ A `binary template` describing `Fallout 4` save game files `(*.fos)`, for use wi
 
 ## About
 
-Fallout 4 save games are binary files using the extension `*.fos`.  Every time you save the game, it creates a new `.fos` file.  By default these are stored in `%USERPROFILE%\Documents\My Games\Fallout4\Saves\*.fos`.
+Fallout 4 save games are binary files using the extension `*.fos`.  Every time you save the game, it creates a new `.fos` file.  By default these are stored in `%USERPROFILE%\My Documents\My Games\Fallout4\Saves\*.fos`.
 
 This template enables `010 Editor` to inspect the contents of these files.
 
