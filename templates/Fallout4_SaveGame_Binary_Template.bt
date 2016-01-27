@@ -89,7 +89,7 @@ struct FO4SAVEGAME {
     ubyte   formVersion <name="Form? Version">;
     WSTRING gameVersion <name="Game Version">;
 
-    // File list
+    // Plugin list
     struct PLUGINLIST {
         uint32  size <hidden=true, name="Plugin List Size">;
         ubyte   count <name="Plugin File Count">;
@@ -98,8 +98,8 @@ struct FO4SAVEGAME {
 
     // File Map
     struct FILEMAP {
-        uint32 unknown1Offset <name="Unknown Offset 1", fgcolor=cBlack, bgcolor=cDkPurple>;
-        uint32 unknown2Offset <name="Unknown Offset 2", fgcolor=cBlack, bgcolor=cDkPurple>;
+        uint32 refIDArrayCountOffset <name="RefID Array Count Offset", fgcolor=cBlack, bgcolor=cDkPurple>;
+        uint32 unknownOffset <name="Unknown Table Offset", fgcolor=cBlack, bgcolor=cDkPurple>;
         uint32 globalData1Offset <name="Global Data 1 Offset", fgcolor=cGreen, bgcolor=cDkPurple>;
         uint32 globalData2Offset <name="Global Data 2 Offset", fgcolor=cGreen, bgcolor=cDkPurple>;
         uint32 changeFormsOffset <name="Change Forms Offset", fgcolor=cYellow, bgcolor=cDkPurple>;
@@ -145,12 +145,12 @@ struct GLOBALDATA {
 } globaldata <name="Global Data">;
 
 
-// Change Forms (?)
+// Change Forms
 typedef struct {
-    ubyte   formID[3];
-    uint32  changeFlags;
-    ubyte   type;
-    ubyte   version;
+    ubyte   refID[3]    <name="RefID">;  // FormID is 4 bytes, RefID is only 3
+    uint32  changeFlags <name="Change Flags">;
+    ubyte   type        <name="Type">;
+    ubyte   version     <name="Version">;
     local uint32 lenType;
     lenType = type >> 6;
     switch( lenType ) {
@@ -173,7 +173,7 @@ typedef struct {
 
 string ReadCHANGEFORM( CHANGEFORM &c ) {
     string s;
-    SPrintf( s, "id: %x %x %x", c.formID[0], c.formID[1], c.formID[2] );
+    SPrintf( s, "id: %X %X %X", c.refID[0], c.refID[1], c.refID[2] );
     return s;
 }
 
@@ -186,7 +186,7 @@ struct CHANGEFORMS {
 // Player Stats
 typedef struct {
     WSTRING stat <name="Player Stat", fgcolor=cGreen, bgcolor=cGray>;
-    ubyte   flag <name="Flag? or Group?", fgcolor=cDkGreen>;
+    ubyte   category <name="Category", fgcolor=cDkGreen>;
     uint32  value <name="Stat Value", fgcolor=cGreen, bgcolor=cLtGray>;
 } PLAYERSTAT <read=ReadPLAYERSTAT, name="Player Stat">;
 
