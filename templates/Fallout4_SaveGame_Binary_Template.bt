@@ -148,7 +148,7 @@ struct GLOBALDATA {
 // Change Forms (?)
 typedef struct {
     ubyte   formID[3];
-    uint32  flags;
+    uint32  changeFlags;
     ubyte   type;
     ubyte   version;
     local uint32 lenType;
